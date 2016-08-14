@@ -1,0 +1,10 @@
+{
+	"appName": {
+		"message": "URL Shortcut",
+		"description": "Extension Name."
+	},
+	"appDescription": {
+		"message": "Allows users to create shortcuts that, when entered into the URL bar, will redirect them to the preset page.",
+		"description": "Extension Description."
+	}
+}

@@ -1,0 +1,26 @@
+h2 {
+	margin: 0;
+}
+
+.row {
+	display: flex;
+	justify-content: space-between;
+	margin: 5px 0;
+}
+
+#content > .row > * {
+	width: 47.5%;
+}
+
+#new {
+	min-width: initial;
+	padding: 0 7.5px;
+}
+
+#status {
+	display: inline-block;
+	margin-right: 5px;
+	vertical-align: middle;
+	color: grey;
+	-webkit-user-select: none;
+}
