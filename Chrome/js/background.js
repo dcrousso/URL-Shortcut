@@ -6,6 +6,6 @@ chrome.storage.sync.get({
 		if (redirect)
 			return {redirectUrl: redirect};
 	}, {
-		urls: ["<all_urls>"]
+		urls: Object.keys(redirects).map(redirect => redirect + (redirect.endsWith("/") ? "*" : ""))
 	}, ["blocking"]);
 });
