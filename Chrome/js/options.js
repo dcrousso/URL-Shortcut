@@ -1,7 +1,7 @@
 class RedirectController {
-	constructor(match, redirect) {
-		this._match = match || "";
-		this._redirect = redirect || "";
+	constructor(match = "", redirect = "") {
+		this._match = match;
+		this._redirect = redirect;
 
 		this._element = document.createElement("div");
 		this._element.classList.add("row");
@@ -45,19 +45,22 @@ const saveButton = document.getElementById("save");
 chrome.storage.sync.get({
 	redirects: {}
 }, ({redirects}) => {
-	const controllers = Object.keys(redirects).map(key => {
+	if (!Object.keys(redirects).length)
+		redirects = {"": ""};
+
+	let controllers = Object.keys(redirects).map(key => {
 		let controller = new RedirectController(key, redirects[key]);
 		content.appendChild(controller.element);
 		return controller;
 	});
 
-	newButton.addEventListener("click", event => {
+	newButton.addEventListener("click", () => {
 		let controller = new RedirectController;
 		content.appendChild(controller.element);
 		controllers.push(controller);
 	});
 
-	saveButton.addEventListener("click", event => {
+	saveButton.addEventListener("click", () => {
 		chrome.storage.sync.set({
 			redirects: controllers.filter(controller => !controller.invalid).reduce((value, controller) => controller.reduce(value), {})
 		}, () => {
