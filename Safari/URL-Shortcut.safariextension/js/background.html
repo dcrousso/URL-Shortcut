@@ -1,0 +1,68 @@
+<script>
+	"use strict";
+
+	let redirects = JSON.parse(safari.extension.settings.redirects);
+	safari.application.addEventListener("message", event => {
+		if (event.name !== "redirects")
+			return;
+
+		redirects = event.message;
+		safari.extension.settings.redirects = JSON.stringify(redirects);
+	});
+
+	function handleURL(event) {
+		let url = null;
+		if (event) {
+			if (event.url)
+				url = event.url;
+			else if (event.query)
+				url = "http://" + event.query + (event.query.includes("/") ? "" : "/");
+		}
+
+		if (!url)
+			return;
+
+		let redirect = redirects[url];
+		if (!redirect) {
+			for (let key in redirects) {
+				if (url.startsWith(key)) {
+					redirect = url.replace(key, redirects[key]);
+					break;
+				}
+			}
+		}
+
+		if (!redirect)
+			return;
+
+		event.preventDefault();
+		event.target.url = redirect;
+	}
+
+	safari.application.addEventListener("beforeNavigate", handleURL, true);
+	safari.application.addEventListener("beforeSearch", handleURL, true);
+
+	let settingsTab = null;
+	safari.extension.settings.addEventListener("change", event => {
+		if (event.key !== "options")
+			return;
+
+		if (!settingsTab) {
+			let activeBrowserWindow = safari.application.activeBrowserWindow;
+
+			settingsTab = activeBrowserWindow.openTab();
+			settingsTab.addEventListener("navigate", navigateEvent => {
+				settingsTab.page.dispatchMessage("redirects", redirects);
+			});
+			settingsTab.addEventListener("close", closeEvent => {
+				settingsTab = null;
+			});
+			settingsTab.url = safari.extension.baseURI + "html/options.html";
+
+			activeBrowserWindow.insertTab(settingsTab, activeBrowserWindow.tabs.indexOf(activeBrowserWindow.activeTab) + 1);
+		}
+
+		if (event.newValue === true)
+			safari.extension.settings.options = event.oldValue;
+	});
+</script>

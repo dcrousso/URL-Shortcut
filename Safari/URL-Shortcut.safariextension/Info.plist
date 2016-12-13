@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Author</key>
+	<string>Devin Rousso</string>
+	<key>Builder Version</key>
+	<string>12603.1.14.2</string>
+	<key>CFBundleDisplayName</key>
+	<string>URL Shortcut</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.dcrousso.urlshortcut</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.2</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.2</string>
+	<key>Chrome</key>
+	<dict>
+		<key>Global Page</key>
+		<string>js/background.html</string>
+	</dict>
+	<key>Description</key>
+	<string>Allows users to create shortcuts that will redirect them to the preset page</string>
+	<key>DeveloperIdentifier</key>
+	<string>0000000000</string>
+	<key>ExtensionInfoDictionaryVersion</key>
+	<string>1.0</string>
+	<key>Permissions</key>
+	<dict>
+		<key>Website Access</key>
+		<dict>
+			<key>Include Secure Pages</key>
+			<true/>
+			<key>Level</key>
+			<string>All</string>
+		</dict>
+	</dict>
+	<key>Update Manifest URL</key>
+	<string>http://devinrousso.com/projects/URL-Shortcut/SafariUpdate.plist</string>
+	<key>Website</key>
+	<string>http://devinrousso.com</string>
+</dict>
+</plist>

@@ -1,3 +1,5 @@
+"use strict";
+
 class RedirectController {
 	constructor(match = "", redirect = "") {
 		this._match = match;
@@ -37,41 +39,40 @@ class RedirectController {
 	}
 }
 
-const content = document.getElementById("content");
+const contentElement = document.getElementById("content");
 const newButton = document.getElementById("new");
 const statusElement = document.getElementById("status");
 const saveButton = document.getElementById("save");
 
-chrome.storage.sync.get({
-	redirects: {}
-}, ({redirects}) => {
-	let keys = Object.keys(redirects);
+safari.self.addEventListener("message", event => {
+	if (event.name !== "redirects")
+		return;
+
+	let keys = Object.keys(event.message);
 	if (!keys.length)
-		redirects = {"": ""};
+		event.message = {"": ""};
 
 	keys.sort();
 
 	let controllers = keys.map(key => {
-		let controller = new RedirectController(key, redirects[key]);
-		content.appendChild(controller.element);
+		let controller = new RedirectController(key, event.message[key]);
+		contentElement.appendChild(controller.element);
 		return controller;
 	});
 
 	newButton.addEventListener("click", clickEvent => {
 		let controller = new RedirectController;
-		content.appendChild(controller.element);
+		contentElement.appendChild(controller.element);
 		controllers.push(controller);
 	});
 
 	saveButton.addEventListener("click", clickEvent => {
-		chrome.storage.sync.set({
-			redirects: controllers.filter(controller => !controller.invalid).reduce((value, controller) => controller.reduce(value), {})
-		}, () => {
-			statusElement.textContent = "Options saved";
-			setTimeout(() => {
-				statusElement.textContent = "";
-			}, 1500);
-			chrome.runtime.reload();
-		});
+		safari.self.tab.dispatchMessage(event.name, controllers.filter(controller => !controller.invalid).reduce((value, controller) => controller.reduce(value), {}));
+
+		statusElement.textContent = "Options saved";
+		setTimeout(() => {
+			statusElement.textContent = "";
+		}, 1500);
 	});
 });
+

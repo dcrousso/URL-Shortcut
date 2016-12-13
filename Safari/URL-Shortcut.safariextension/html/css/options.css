@@ -1,0 +1,41 @@
+body {
+	width: 500px;
+	margin: auto;
+	font-family: "Helvetica Neue", "Lucida Grande", sans-serif;
+	font-size: 0.75em;
+	line-height: 1.5em;
+	color: hsl(0, 0%, 20%);
+	background-color: hsl(0, 0%, 95%);
+}
+
+img {
+	display: block;
+	margin: 0 auto;
+}
+
+h2 {
+	margin: 0;
+	text-align: center;
+}
+
+.row {
+	display: flex;
+	justify-content: space-between;
+	margin: 5px 0;
+}
+
+#content > .row > * {
+	width: 47.5%;
+}
+
+#new {
+	padding: 0 0.5em 0.25em;
+}
+
+#status {
+	display: inline-block;
+	margin-right: 5px;
+	vertical-align: middle;
+	color: grey;
+	-webkit-user-select: none;
+}
